@@ -510,4 +510,4 @@ we tried caret ensemble with the following models:
 then we wanted advanced stacking function, so we stack these models with xgbTree model and get the best result of: 0.80382.
 
 ### screenShot ###
-![Image](/images/screenShot.png)
+![Image](/images/screenshot.png)
