@@ -247,7 +247,7 @@ submit first basic model C5.0:
 res <- cbind(PassengerId=ids,Survived=as.character(new_pred))
 write.csv(res,file="Titanic/C50.csv",row.names = F)
 ```
-(submission score: 0.76555)
+** (submission score: 0.76555) **
 
 ### C50 Using Caret ###
 
@@ -268,7 +268,7 @@ new_pred<- predict(fit.c50,testDF,na.action = na.pass)
 res <- cbind(PassengerId=ids,Survived=as.character(new_pred))
 write.csv(res,file="Titanic/c50Caret.csv",row.names = F)
 ```
-submission score:0.75119
+** (submission score:0.75119) **
 
 ### rpart basic ### 
 
@@ -313,7 +313,7 @@ new_pred<- predict(rpart,testDF,type = "class")
 res <- cbind(PassengerId=ids,Survived=as.character(new_pred))
 write.csv(res,file="Titanic/rpart.csv",row.names = F)
 ```
-submission score:0.77990
+** (submission score:0.77990) **
 
 
 ### rpart with caret ### 
@@ -337,7 +337,7 @@ submit & second basic model using caret:
 res <- cbind(PassengerId=ids,Survived=as.character(new_pred))
 write.csv(res,file="Titanic/rpartCaret.csv",row.names = F)
 ```
-submission score: 0.78947
+** (submission score: 0.78947) **
 
 ### XGBtree with caret ###
 
@@ -366,7 +366,7 @@ res <- cbind(PassengerId=ids,Survived=as.character(new_pred))
 write.csv(res,file="Titanic/xgbTreeCaret.csv",row.names = F)
 
 ```
-submission score: 0.78468
+** (submission score: 0.78468) **
 
 ### rf with caret ###
 
@@ -396,7 +396,7 @@ submit fourth model using caret:
 res <- cbind(PassengerId=ids,Survived=as.character(new_pred))
 write.csv(res,file="Titanic/rfTreeCaret.csv",row.names = F)
 ```
-(submission score: 0.78468)
+** (submission score: 0.78468) **
 
 
 ### caret ensemble ###
@@ -461,7 +461,7 @@ submit:
 res <- cbind(PassengerId=ids,Survived=as.character(new_pred))
 write.csv(res,file="Titanic/caretEnsemble.csv",row.names = F)
 ```
-(submission score: 0.79904)
+** (submission score: 0.79904) **
 
 we want a more advanced stacking function, we will use "caretStack" that has a method parameter that can be used for setting the stacking function. 
 ```{r}
@@ -490,18 +490,21 @@ submit:
 res <- cbind(PassengerId=ids,Survived=as.character(new_pred))
 write.csv(res,file="Titanic/caretStack.csv",row.names = F)
 ```
-(submission score:0.80382)
+** (submission score:0.80382) **
 
 ## conclusion ##
 we tried the following models without caret:
 1. C5.0
 2. rpart
+
 we tried the following models with caret package:
 1. C5.0
 2. rpart
 3. xgbTree
 4. rf
+
 we tried caret ensemble with the following models:
 1. glm
 2. rpart
+
 then we wanted advanced stacking function, so we stack these models with xgbTree model and get the best result of: 0.80382.
