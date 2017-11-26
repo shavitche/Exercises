@@ -202,7 +202,7 @@ summary(testDF)
 ## Step 3 - model prediction
 
 
-** ### Basic Algorithem C50 
+### Basic Algorithem C50 
 
 now we are ready to start our first tree dicision model.
 first one as we requested will be: C50.
@@ -249,7 +249,7 @@ write.csv(res,file="Titanic/C50.csv",row.names = F)
 ```
 (submission score: 0.76555)
 
-** ### C50 Using Caret ### **
+### C50 Using Caret ###
 
 now let's train C50 with caret:
 ```{r}
@@ -270,7 +270,7 @@ write.csv(res,file="Titanic/c50Caret.csv",row.names = F)
 ```
 submission score:0.75119
 
-** ### rpart basic ### **
+### rpart basic ### 
 
 we will try one more basic model, called RPART.
 first, train the model:
@@ -316,7 +316,7 @@ write.csv(res,file="Titanic/rpart.csv",row.names = F)
 submission score:0.77990
 
 
-** ### rpart with caret ### **
+### rpart with caret ### 
 
 let's try this model with cart:
 ```{r}
@@ -339,7 +339,7 @@ write.csv(res,file="Titanic/rpartCaret.csv",row.names = F)
 ```
 submission score: 0.78947
 
-** ### XGBtree with caret ### **
+### XGBtree with caret ###
 
 let's use one more algorithem with caret called XGB.
 
@@ -368,7 +368,8 @@ write.csv(res,file="Titanic/xgbTreeCaret.csv",row.names = F)
 ```
 submission score: 0.78468
 
-** ### rf with caret **
+### rf with caret ###
+
 let's try rf model
 
 train:
@@ -398,7 +399,7 @@ write.csv(res,file="Titanic/rfTreeCaret.csv",row.names = F)
 (submission score: 0.78468)
 
 
-** ### caret ensemble ### **
+### caret ensemble ###
 
 In some packages the levels names might raise some errors since they are numeric, so we rename the levels:
 ```{r}
