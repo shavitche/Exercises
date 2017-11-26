@@ -164,6 +164,8 @@ create vectore with passengerId (this is for the submission)
 ids <- testDF$PassengerId
 ```
 
+## Step 2 - Preprocessing the test data frame
+
 rapeat same preprocessing:
 ```{r}
 testDF$Pclass<- as.factor(testDF$Pclass)
@@ -197,9 +199,10 @@ testDF$Title <-as.factor(testDF$Title)
 summary(testDF)
 ```
 
+## Step 3 - model prediction
 
 
-** ### Basic Algorithem C50 **
+** ### Basic Algorithem C50 
 
 now we are ready to start our first tree dicision model.
 first one as we requested will be: C50.
