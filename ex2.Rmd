@@ -55,7 +55,7 @@ trainDF <- trainDF[,-c(9)]
 ```
 
 
--completing Age: 
+- completing Age: 
 ```{r}
 #install.packages("ggplot2")
 library(ggplot2)
