@@ -1,12 +1,10 @@
 ---
 title: "Ass2"
 output: html_document
+submiy by: Shavit Chernihov, Tamir Shmilovich
 ---
 
 # Exercise 2 - Diving in with the titanic data
-
-* Shavit Chernihov *
-* Tamir shmilovich *
 
 ## Step 1 - Preperation
 
@@ -399,7 +397,7 @@ write.csv(res,file="Titanic/rfTreeCaret.csv",row.names = F)
 
 ** ### caret ensemble ### **
 
-In some packages the level’s names might raise some errors since they are numeric, so we rename the levels:
+In some packages the levelÂ’s names might raise some errors since they are numeric, so we rename the levels:
 ```{r}
 trainDF$Survived<- as.factor(trainDF$Survived)
 levels(trainDF$Survived)<-c("x0","x1")
