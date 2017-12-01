@@ -401,7 +401,7 @@ write.csv(res,file="Titanic/rfTreeCaret.csv",row.names = F)
 
 ### caret ensemble ###
 
-In some packages the levels names might raise some errors since they are numeric, so we rename the levels:
+In some packages the levels names might raise some errors since they are numeric, so we rename the levels:
 ```{r}
 trainDF$Survived<- as.factor(trainDF$Survived)
 levels(trainDF$Survived)<-c("x0","x1")
