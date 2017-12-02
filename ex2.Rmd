@@ -299,6 +299,7 @@ library(rattle)
 library(rpart.plot)
 fancyRpartPlot(rpart)
 ```
+![Image](/image/rpartdiagram.png)
 
 predict:
 ```{r}
@@ -447,6 +448,7 @@ check that there is no high correlation between the models:
 ```{r}
 modelCor(resamples(model_list))
 ```
+![Image](/image/lowCorrelation.png.png)
 
 create caretEnsemble:
 ```{r}
