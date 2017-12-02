@@ -23,6 +23,7 @@ check dataTypes for each variable (attributes) using str method.
 ```{r}
 str(trainDF)
 ```
+![Image](/image/str.png)
 
 we can notice that survived can be only values 0 or 1, Pclass can be only 1,2 or 3. their values are catagorial so it will be better to convert them as factors.
 ```{r}
@@ -34,6 +35,7 @@ now we want to check which variables have Na's values.we will do it by summaey f
 ```{r}
 summary(trainDF)
 ```
+![Image](/image/summary.png)
 
 first, we can noticed that Survived and Pclass are now categorial.
 second, we can notice that PassengerId,Name and Ticket are all with 891 values, and therefore these variables are index and we will omit them:
@@ -61,12 +63,14 @@ trainDF <- trainDF[,-c(9)]
 library(ggplot2)
 ggplot(trainDF, aes(Pclass,fill=!is.na(Age))) + geom_bar(position="dodge") + labs(title="Passenger Age existence by Pclass", fill="Has Age")
 ```
+![Image](/image/agePclassDiagram.png)
 
 we can notice that there ~40% of Pclass 3 age is missing.
 let's check the mean for each Pclass:
 ```{r}
 aggregate(Age ~ Pclass, trainDF, mean)
 ```
+![Image](/image/PclassAgeTable.png)
 
 so we want to fill the age of people in Pclass 1 with Na's to 38.23344 and for people in Pclass 2 with 29.87763.
 
@@ -95,6 +99,7 @@ now, we will take a look at the titles:
 ```{r}
 table(trainDF$Title)
 ```
+![Image](/image/namesTable.png)
 
 we can notice that there are many titles with not many people, and many of them describe the same group of Age:
 (this knowledge we got from the internet)
@@ -114,10 +119,14 @@ trainDF$Title = as.factor(trainDF$Title)
 ```{r}
 table(trainDF$Title)
 ```
+![Image](/image/name2.png)
+
 ok.. now it's better, we want to see the average age for each title.
 ```{r}
 aggregate(Age ~ Title, trainDF, mean)
 ```
+![Image](/image/nameAge.png)
+
 and change the Na age 
 ```{r}
 trainDF$Title = as.vector(trainDF$Title)
@@ -148,6 +157,7 @@ now we will look again on the summary:
 ```{r}
 summary(trainDF)
 ```
+![Image](/image/summaryLast.png)
 
 ok, now we are satisfied with the variables, there is no Na values or index variables.
 let's continue... :)
@@ -198,6 +208,7 @@ testDF$Fare[is.na(testDF$Fare)] <- 35.367
 testDF$Title <-as.factor(testDF$Title)
 summary(testDF)
 ```
+![Image](/image/summaryTestLast.png)
 
 ## Step 3 - model prediction
 
