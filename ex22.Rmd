@@ -1,0 +1,513 @@
+---
+title: "Ass2"
+output: html_document
+submit by: Shavit Chernihov, Tamir Shmilovich
+---
+
+# Exercise 2 - Diving in with the titanic data
+
+## Step 1 - Preperation
+
+set working directory:
+```{r}
+knitr::opts_knit$set(root.dir = 'C:\\Users\\shavit\\Desktop\\Ass2')
+getwd()
+```
+
+read train.csv file, using the parameter na.strings = "" to recognize empty strings as null values.
+```{r}
+trainDF <- read.csv("Titanic/train.csv", na.strings = "")
+```
+
+check dataTypes for each variable (attributes) using str method.
+```{r}
+str(trainDF)
+```
+
+we can notice that survived can be only values 0 or 1, Pclass can be only 1,2 or 3. their values are catagorial so it will be better to convert them as factors.
+```{r}
+trainDF$Survived <- as.factor(trainDF$Survived)
+trainDF$Pclass <- as.factor(trainDF$Pclass)
+```
+
+now we want to check which variables have Na's values.we will do it by summaey function.
+```{r}
+summary(trainDF)
+```
+
+first, we can noticed that Survived and Pclass are now categorial.
+second, we can notice that PassengerId,Name and Ticket are all with 891 values, and therefore these variables are index and we will omit them:
+ (we will wait to omit the name because soon we will use it.)
+```{r}
+trainDF <- trainDF[,-c(1,9)]
+```
+ 
+let's look the change:
+```{r}
+summary(trainDF)
+```
+
+ok.. it works fine, last step before starting to build our first model is to take care of Na's values, because later we will use models that don't know to handle correctly with them, and because it can improve our prediction.
+we can notice that we have Na's at age,cabin and embarked.
+- completing Cabin: we decided not to complete this missing values because most of the cabin values are missing and if we will try to guess them it can only add noise. so for now we decide to omit this variable. 
+```{r}
+trainDF <- trainDF[,-c(9)]
+```
+
+
+- completing Age: 
+```{r}
+#install.packages("ggplot2")
+library(ggplot2)
+ggplot(trainDF, aes(Pclass,fill=!is.na(Age))) + geom_bar(position="dodge") + labs(title="Passenger Age existence by Pclass", fill="Has Age")
+```
+
+we can notice that there ~40% of Pclass 3 age is missing.
+let's check the mean for each Pclass:
+```{r}
+aggregate(Age ~ Pclass, trainDF, mean)
+```
+
+so we want to fill the age of people in Pclass 1 with Na's to 38.23344 and for people in Pclass 2 with 29.87763.
+
+```{r}
+trainDF$Age[trainDF$Pclass == 1 & is.na(trainDF$Age)] <- 38.23344
+trainDF$Age[trainDF$Pclass == 2 & is.na(trainDF$Age)] <- 29.87763
+```
+
+
+ok, now we handle the missing Age variable for Pclass 3.
+in the next step we will use the honor pronounses before the names such as Miss, Master and etc..
+for this we will make new column called title with the honor pronouns for each person, this pronounce we will take from the name column.
+
+so, first we will change Name column to character. (by this change we can treat name variable as strings)
+```{r}
+trainDF$Name <- as.character(trainDF$Name)
+```
+
+second, we will create new column and split the titles from names to there:
+```{r}
+trainDF$Title <- sapply(trainDF$Name, FUN=function(x) {strsplit(x, split='[,.]')[[1]][2]})
+trainDF$Title <- sub(' ', '', trainDF$Title)  #clean spaces
+```
+
+now, we will take a look at the titles:
+```{r}
+table(trainDF$Title)
+```
+
+we can notice that there are many titles with not many people, and many of them describe the same group of Age:
+(this knowledge we got from the internet)
+```{r}
+trainDF$Title[trainDF$Title %in% c('Mme', 'Mlle')] <- 'Mlle' # same meaning
+trainDF$Title[trainDF$Title %in% c('Capt', 'Don', 'Major', 'Sir')] <- 'Sir' #same meaning
+trainDF$Title[trainDF$Title %in% c('Dona', 'Lady', 'the Countess', 'Jonkheer')] <- 'Lady' #same meaning
+trainDF$Title <- as.factor(trainDF$Title)
+```
+
+change train Title to factor:
+```{r}
+trainDF$Title = as.factor(trainDF$Title)
+```
+
+ let's look at this again:
+```{r}
+table(trainDF$Title)
+```
+ok.. now it's better, we want to see the average age for each title.
+```{r}
+aggregate(Age ~ Title, trainDF, mean)
+```
+and change the Na age 
+```{r}
+trainDF$Title = as.vector(trainDF$Title)
+trainDF$Age[trainDF$Pclass == 3 & is.na(trainDF$Age) & trainDF$Title == 'Col'] <- 58.00000
+trainDF$Age[trainDF$Pclass == 3 & is.na(trainDF$Age) & trainDF$Title == 'Dr'] <- 41.461920
+trainDF$Age[trainDF$Pclass == 3 & is.na(trainDF$Age) & trainDF$Title == 'Lady'] <- 39.666667
+trainDF$Age[trainDF$Pclass == 3 & is.na(trainDF$Age) & trainDF$Title == 'Master'] <- 4.574167
+trainDF$Age[trainDF$Pclass == 3 & is.na(trainDF$Age) & trainDF$Title == 'Miss'] <- 21.773973
+trainDF$Age[trainDF$Pclass == 3 & is.na(trainDF$Age) & trainDF$Title == 'Mlle'] <- 24.000000
+trainDF$Age[trainDF$Pclass == 3 & is.na(trainDF$Age) & trainDF$Title == 'Mr'] <- 32.590322 #check spaces
+trainDF$Age[trainDF$Pclass == 3 & is.na(trainDF$Age) & trainDF$Title == 'Mrs'] <- 36.059203
+trainDF$Age[trainDF$Pclass == 3 & is.na(trainDF$Age) & trainDF$Title == 'Ms'] <- 28.000000
+trainDF$Age[trainDF$Pclass == 3 & is.na(trainDF$Age) & trainDF$Title == 'Rev'] <- 43.166667
+trainDF$Age[trainDF$Pclass == 3 & is.na(trainDF$Age) & trainDF$Title == 'Sir'] <- 51.200000
+```
+
+now we can ignore the Name. (because it's index variable) 
+```{r}
+trainDF <- trainDF[,-c(3)]
+```
+
+- completing Embarked: bu the summary we can understand that most of the people (644/891 ~72%) were with value s, and there are only 2 Na's values, so we decided to assign them with S.
+```{r}
+trainDF$Embarked[is.na(trainDF$Embarked)] <- 'S'
+```
+
+now we will look again on the summary:
+```{r}
+summary(trainDF)
+```
+
+ok, now we are satisfied with the variables, there is no Na values or index variables.
+let's continue... :)
+
+last step before building model to predict is to update the test data Frame in the same manner we updated the train.
+
+we load the test:
+```{r}
+testDF <-read.csv('Titanic/test.csv',na.strings = "")
+```
+
+create vectore with passengerId (this is for the submission)
+```{r}
+ids <- testDF$PassengerId
+```
+
+## Step 2 - Preprocessing the test data frame
+
+rapeat same preprocessing:
+```{r}
+testDF$Pclass<- as.factor(testDF$Pclass)
+testDF <- testDF[,-c(1,8,10)]
+testDF$Age[testDF$Pclass == 1 & is.na(testDF$Age)] <- 38.23344
+testDF$Age[testDF$Pclass == 2 & is.na(testDF$Age)] <- 29.87763
+testDF$Name <- as.character(testDF$Name)
+testDF$Title <- sapply(testDF$Name, FUN=function(x) {strsplit(x, split='[,.]')[[1]][2]})
+testDF$Title <- sub(' ', '', testDF$Title)  #clean spaces
+testDF$Title[testDF$Title %in% c('Mme', 'Mlle')] <- 'Mlle' # same meaning
+testDF$Title[testDF$Title %in% c('Capt', 'Don', 'Major', 'Sir')] <- 'Sir' #same meaning
+testDF$Title[testDF$Title %in% c('Dona', 'Lady', 'the Countess', 'Jonkheer')] <- 'Lady' #same meaning
+testDF$Title <- factor(testDF$Title)  #Change back to factor because it categorial
+
+testDF$Title = as.vector(testDF$Title)
+testDF$Age[testDF$Pclass == 3 & is.na(testDF$Age) & testDF$Title == 'Col'] <- 58.00000
+testDF$Age[testDF$Pclass == 3 & is.na(testDF$Age) & testDF$Title == 'Dr'] <- 41.461920
+testDF$Age[testDF$Pclass == 3 & is.na(testDF$Age) & testDF$Title == 'Lady'] <- 39.666667
+testDF$Age[testDF$Pclass == 3 & is.na(testDF$Age) & testDF$Title == 'Master'] <- 4.574167
+testDF$Age[testDF$Pclass == 3 & is.na(testDF$Age) & testDF$Title == 'Miss'] <- 21.773973
+testDF$Age[testDF$Pclass == 3 & is.na(testDF$Age) & testDF$Title == 'Mlle'] <- 24.000000
+testDF$Age[testDF$Pclass == 3 & is.na(testDF$Age) & testDF$Title == 'Mr'] <- 32.590322 #check spaces
+testDF$Age[testDF$Pclass == 3 & is.na(testDF$Age) & testDF$Title == 'Mrs'] <- 36.059203
+testDF$Age[testDF$Pclass == 3 & is.na(testDF$Age) & testDF$Title == 'Ms'] <- 28.000000
+testDF$Age[testDF$Pclass == 3 & is.na(testDF$Age) & testDF$Title == 'Rev'] <- 43.166667
+testDF$Age[testDF$Pclass == 3 & is.na(testDF$Age) & testDF$Title == 'Sir'] <- 51.200000
+testDF <- testDF[,-c(2)] #name remove
+testDF$Embarked[is.na(testDF$Embarked)] <- 'S'
+testDF$Fare[is.na(testDF$Fare)] <- 35.367
+testDF$Title <-as.factor(testDF$Title)
+summary(testDF)
+```
+
+## Step 3 - model prediction
+
+
+### Basic Algorithem C50 
+
+now we are ready to start our first tree dicision model.
+first one as we requested will be: C50.
+but first we will split the TrainDF into 75% train and 25% test sets.
+```{r}
+trainDF$Title <-as.factor(trainDF$Title)
+indices <- sample(1:nrow(trainDF),nrow(trainDF)*0.75)
+train<- trainDF[indices,]
+test<- trainDF[-indices,]
+```
+
+train C50:
+```{r}
+#install.packages("C50")
+library(C50)
+seed <- 132
+set.seed(seed)
+C50 <-C5.0(Survived ~., data=train )
+```
+
+predict the target:
+```{r}
+pred <- predict(C50,test)
+```
+
+produce a confusion matrix:
+```{r}
+table(pred,test$Survived)
+```
+and calculate the mean:
+```{r}
+mean(pred==test$Survived)
+```
+
+predict:
+```{r}
+new_pred<- predict(C50,testDF,na.action = na.pass)
+```
+
+submit first basic model C5.0:
+```{r}
+res <- cbind(PassengerId=ids,Survived=as.character(new_pred))
+write.csv(res,file="Titanic/C50.csv",row.names = F)
+```
+*(submission score: 0.76555)*
+
+### C50 Using Caret ###
+
+now let's train C50 with caret:
+```{r}
+#install.packages("caret")
+library(caret)
+set.seed(seed)
+grid <- expand.grid( .winnow = c(TRUE,FALSE), .trials=c(1,3,5), .model="tree" )
+control <- trainControl(method="cv", number=10)
+fit.c50 <- train(Survived~., data=trainDF, method="C5.0", metric="Accuracy", trControl=control, tuneGrid=grid, na.action=na.pass)
+fit.c50
+```
+
+predict & submit first basic model using caret:
+```{r}
+new_pred<- predict(fit.c50,testDF,na.action = na.pass)
+res <- cbind(PassengerId=ids,Survived=as.character(new_pred))
+write.csv(res,file="Titanic/c50Caret.csv",row.names = F)
+```
+*(submission score:0.75119)*
+
+### rpart basic ### 
+
+we will try one more basic model, called RPART.
+first, train the model:
+```{r}
+#install.packages("rpart")
+set.seed(seed) # set the random seed to get the same results at each execution
+library(rpart)
+rpart <- rpart(Survived ~ ., data = train)
+```
+
+present nice plot of the tree:
+```{r}
+#install.packages(c("rattle","rpart.plot"))
+library(rattle)
+library(rpart.plot)
+fancyRpartPlot(rpart)
+```
+
+predict:
+```{r}
+predictions <- predict(rpart, test,type = "class")
+head(predictions,10)
+```
+
+the confusion matrix:
+```{r}
+confusion.matrix <- prop.table(table(predictions, test$Survived))
+confusion.matrix
+```
+
+the acurracy:
+```{r}
+accuracy <- confusion.matrix[1,1] + confusion.matrix[2,2]
+accuracy
+```
+
+predict & submit second basic model:
+```{r}
+new_pred<- predict(rpart,testDF,type = "class")
+res <- cbind(PassengerId=ids,Survived=as.character(new_pred))
+write.csv(res,file="Titanic/rpart.csv",row.names = F)
+```
+*(submission score:0.77990)*
+
+
+### rpart with caret ### 
+
+let's try this model with cart:
+```{r}
+library(caret)
+set.seed(seed)
+control <- trainControl(method="cv", number=10)
+fit.rpart <- train(Survived~., data=trainDF, method="rpart", metric="Accuracy", trControl=control,na.action=na.pass)
+fit.rpart
+```
+
+predict:
+```{r}
+new_pred<- predict(fit.rpart,testDF,na.action = na.pass)
+```
+
+submit & second basic model using caret:
+```{r}
+res <- cbind(PassengerId=ids,Survived=as.character(new_pred))
+write.csv(res,file="Titanic/rpartCaret.csv",row.names = F)
+```
+*(submission score: 0.78947)*
+
+### XGBtree with caret ###
+
+let's use one more algorithem with caret called XGB.
+
+first we have to set possible parameter's values in the tuning grid.
+```{r}
+grid <- expand.grid(.nrounds=25,.max_depth=8,.eta=c(0.1,0.3,0.5,0.7),.gamma=0.1,.colsample_bytree=0.5,.min_child_weight=0.01,.subsample=0.7)
+```
+
+now train the model:
+```{r}
+set.seed(seed)
+fit.xgb <- train(Survived~., data=trainDF, method="xgbTree", metric="Accuracy", trControl=control, tuneGrid=grid, na.action=na.pass)
+fit.xgb
+```
+
+predict:
+```{r}
+new_pred<- predict(fit.xgb,testDF,na.action = na.pass)
+```
+
+submit third basic model using caret:
+```{r}
+res <- cbind(PassengerId=ids,Survived=as.character(new_pred))
+write.csv(res,file="Titanic/xgbTreeCaret.csv",row.names = F)
+
+```
+*(submission score: 0.78468)*
+
+### rf with caret ###
+
+let's try rf model
+
+train:
+```{r}
+#install.packages("randomForest")
+library(randomForest)
+trainDF$Title <- as.factor(trainDF$Title) 
+fit.rf <- train(Survived~., data=trainDF, method="rf",Importance=TRUE,ntree = 200, metric="Accuracy",trControl=control, tuneGrid=expand.grid(.mtry=c(5)), na.action=na.roughfix)
+```
+
+result:
+```{r}
+fit.rf
+```
+
+predict:
+```{r}
+testDF$Title <- as.factor(testDF$Title)
+new_pred<- predict(fit.rf,testDF,na.action = na.roughfix)
+```
+
+submit fourth model using caret:
+```{r}
+res <- cbind(PassengerId=ids,Survived=as.character(new_pred))
+write.csv(res,file="Titanic/rfTreeCaret.csv",row.names = F)
+```
+*(submission score: 0.78468)*
+
+
+### caret ensemble ###
+
+In some packages the levels names might raise some errors since they are numeric, so we rename the levels:
+```{r}
+trainDF$Survived<- as.factor(trainDF$Survived)
+levels(trainDF$Survived)<-c("x0","x1")
+```
+
+
+create caretList with rpart and glm models.
+```{r}
+library("caret")
+library("mlbench")
+library("pROC")
+set.seed(seed)
+my_control <- trainControl(
+  method="boot",
+  number=25,
+  savePredictions="final",
+  classProbs=TRUE,
+  index=createResample(trainDF$Survived, 25),
+  summaryFunction=twoClassSummary
+  )
+
+library("rpart")
+library("caretEnsemble")
+model_list <- caretList(
+  Survived~., data=trainDF,
+  trControl=my_control,
+  methodList=c("glm", "rpart")
+  )
+```
+
+check that there is no high correlation between the models:
+```{r}
+modelCor(resamples(model_list))
+```
+
+create caretEnsemble:
+```{r}
+greedy_ensemble <- caretEnsemble(
+  model_list, 
+  metric="ROC",
+  trControl=trainControl(
+    number=2,
+    summaryFunction=twoClassSummary,
+    classProbs=TRUE
+    ))
+summary(greedy_ensemble)
+```
+
+predict and return levels to numeric levels:
+```{r}
+new_pred<- predict(greedy_ensemble,testDF)
+levels(new_pred)<-c("0","1")
+```
+
+submit:
+```{r}
+res <- cbind(PassengerId=ids,Survived=as.character(new_pred))
+write.csv(res,file="Titanic/caretEnsemble.csv",row.names = F)
+```
+*(submission score: 0.79904)*
+
+we want a more advanced stacking function, we will use "caretStack" that has a method parameter that can be used for setting the stacking function. 
+```{r}
+set.seed(seed)
+stack.rf <- caretStack(
+  model_list,
+  method = "xgbTree",
+  metric = "ROC",
+  trControl = trainControl(
+    number = 10, 
+    summaryFunction = twoClassSummary,
+    classProbs = TRUE
+  )
+)
+stack.rf
+```
+
+predict and return levels to numeric levels:
+```{r}
+new_pred<- predict(stack.rf,testDF)
+levels(new_pred)<-c("0","1")
+```
+
+submit:
+```{r}
+res <- cbind(PassengerId=ids,Survived=as.character(new_pred))
+write.csv(res,file="Titanic/caretStack.csv",row.names = F)
+```
+*(submission score:0.80382)*
+
+## conclusion ##
+we tried the following models without caret:
+1. C5.0
+2. rpart
+
+we tried the following models with caret package:
+1. C5.0
+2. rpart
+3. xgbTree
+4. rf
+
+we tried caret ensemble with the following models:
+1. glm
+2. rpart
+
+then we wanted advanced stacking function, so we stack these models with xgbTree model and get the best result of: 0.80382.
+
+### Best result screenShot ###
+![Image](/image/screenshot.png)
