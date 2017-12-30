@@ -509,7 +509,7 @@ set the nodes in color and print:
 plot(sa_graph.mod, vertex.size=5, vertex.label=NA,
      vertex.color=memb1)
 ```
-![Image](images/leadingEigenvectorGraphGGraph.png)
+![Image](images/leadingEigenvectorGraphGraph.png)
 
 **Conclude Question 2:**
 
