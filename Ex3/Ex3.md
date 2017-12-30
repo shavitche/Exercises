@@ -37,7 +37,7 @@ plot the network:
 g$layout <- layout.fruchterman.reingold(g)
 plot(g)
 ```
-![Image](Ex3/image/39.png)
+![Image](Ex3/images/39.png)
 
 we can notice that there are 3 connected component.
 let's take only the biggest one.
@@ -47,7 +47,7 @@ first we have to decompose the graph to 3 differnet graphs , each one is a conne
 dg <- decompose.graph(g)
 dg
 ```
-![Image](/image/47.png)
+![Image](/images/47.png)
 
 we have got 3 graphs, let's choose the biggest one, we have 2 ways to do that:
 1) we can notice at the output, at the first detail row for each graph, the fourth element is the number of vertics in the graph.
