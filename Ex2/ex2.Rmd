@@ -23,7 +23,7 @@ check dataTypes for each variable (attributes) using str method.
 ```{r}
 str(trainDF)
 ```
-![Image](/image/str.png)
+![Image](Ex2/image/str.png)
 
 we can notice that survived can be only values 0 or 1, Pclass can be only 1,2 or 3. their values are catagorial so it will be better to convert them as factors.
 ```{r}
