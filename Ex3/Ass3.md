@@ -229,9 +229,8 @@ a) for biggesrt component in grey antomy we found:
   i.	  Betweenness is Sloan with 115.3667.  
   ii.	  Closeness is Torres with 0.01754386.   
   iii.	Eigenvector is Karev with 1.  
-  
 b) we used 2 different algorithems for communication detection:
-  1) Girvan-Newman with 7 groups and modularity value of 0.5774221 (~0.58)  
+1) Girvan-Newman with 7 groups and modularity value of 0.5774221 (~0.58)  
   2) fastgreedy with 6 groups and modularity value of 0.5947232 (~0.59)  
   and for both of them we plot a colored graph that each color identifies a group.  
 
