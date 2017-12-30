@@ -68,7 +68,7 @@ ga.bcg <- dg[[index]]
 
 so, after we found the biggest connected component, let's calculate Betweenes, Closeness and Eigenvector.
 
-** i Betweenes **
+**i Betweenes**
 
 we have to find the most betweenes actor.
 ```{r}
@@ -82,7 +82,7 @@ max(betweenness(ga.bcg))
 ```
 (betweeness rank of:115.3667)
 
-** ii Closeness **
+**ii Closeness**
 
 next, we have to check for Closeness:
 ```{r}
@@ -97,7 +97,7 @@ max(closeness(ga.bcg))
 ```
 (closeness rank of: 0.01754386)
 
-** iii Eigenvector **
+**iii Eigenvector**
 
 last, we have to check for Eigenvector:
 ```{r}
@@ -205,7 +205,7 @@ b) we used 2 different algorithems for communication detection:
 
 # Question 2
 
-##a)
+## a)
 
 we will use Twitter Api:
 first we will install&use the following packages:
@@ -282,7 +282,7 @@ head(writer.publisher.df)
 ![Image](images/261.png)
 
 
-## b,c
+## 2b,2c
 now, we can create a graph and plot it:
 we will use the function: graph_from_data_frame in order to create the graph, this function take the edge list from the first tow columns, and the third column considered as attributes. (the vertics are known by the edges list)
 ```{r}
@@ -326,8 +326,8 @@ we can investigate more, but this is out of the scope of this assigment so we wi
 (This is the highest abstraction, from this abstraction we can distinguish groups, and general details, in order to discover a more specific details within groups we can investigate a particular group by decomposing the graph and investigate a specific membership inside it...)
 
 
-##d) (do Q1 for this data)
-##d1)
+## d) (do Q1 for this data)
+## d1)
 
 we have to check Betweenness, Closeness and Eigenvector for the bigest connected component in the graph:
 so..
@@ -351,6 +351,7 @@ for (i in 2:length(sad))
 ```
 (we did it the same way as on the top)
 
+**i Betweeness** 
 so.. now we have to find the most betweenes actor, we studied to find betweens only for undirected graph and therefore we convert this graph to be undirected.
 ```{r}
 which.max(betweenness(as.undirected(sad[[index]])))
@@ -365,6 +366,7 @@ max(betweenness(as.undirected(sad[[index]])))
 ```
 (betweeness rank of: 12371)
 
+**ii Closeness**
 next.. we have to check for Closeness.
 ```{r}
 which.max(closeness(as.undirected(sad[[index]])))
@@ -377,6 +379,7 @@ max(closeness(sad[[index]]))
 ```
 (closeness rank of: 0.0002316423)
 
+**eigen_centrality**
 last.. we have to check for	Eigenvector:
 ```{r}
 sadv <- eigen_centrality(sad[[index]])$vector
@@ -390,8 +393,7 @@ max(sadv)
 ```
 (Eigenvector rank of: 1)
 
-##d2)
-
+## d2)
 
 we have to use 2 different algorithems to detect communities.
 the first one will be: Girvan-Newman (in order to get modularity, we have to convert this graph to be undirected.)
