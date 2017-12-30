@@ -47,7 +47,7 @@ first we have to decompose the graph to 3 differnet graphs , each one is a conne
 dg <- decompose.graph(g)
 dg
 ```
-![Image](\\images\\47.png)
+![Image](images/47.png)
 
 we have got 3 graphs, let's choose the biggest one, we have 2 ways to do that:
 1) we can notice at the output, at the first detail row for each graph, the fourth element is the number of vertics in the graph.
@@ -74,7 +74,7 @@ we have to find the most betweenes actor.
 ```{r}
 which.max(betweenness(ga.bcg))
 ```
-![Image](/image/73.png)
+![Image](images/73.png)
 
 as we can see Sloan has the highest betweeness. with rank of:
 ```{r}
@@ -88,7 +88,7 @@ next, we have to check for Closeness:
 ```{r}
 which.max(closeness(ga.bcg))
 ```
-![Image](/image/85.png)
+![Image](images/85.png)
 
 
 as we can see torres has the highest closeness. with rank of:
@@ -104,7 +104,7 @@ last, we have to check for Eigenvector:
 ecv <- eigen_centrality(ga.bcg)$vector
 which.max(ecv)
 ```
-![Image](/image/100.png)
+![Image](images/100.png)
 
 as we can see kerev has the highest Eigenvector. with rank of:
 ```{r}
@@ -120,7 +120,7 @@ the first one will be: Girvan-Newman
 gc <-  edge.betweenness.community(g)
 gc
 ```
-![Image](/image/115.png)
+![Image](images/115.png)
 
 we can notice that the *number of the groups is 7.*
 the *modularity value is ~0.58*
@@ -144,7 +144,7 @@ let's detect the memberships:
 memb <- membership(gc)
 memb
 ```
-![Image](/image/138.png)
+![Image](images/138.png)
 
 by this output we can notice which actor connected to which group.
 
@@ -154,7 +154,7 @@ set the nodes in color and print:
 plot(g, vertex.size=5, vertex.label=NA,
      vertex.color=memb, asp=FALSE)
 ```
-![Image](/image/145.png)
+![Image](images/145.png)
 
 as we can see there are *7 different colors , each color for one membership group.*
 
@@ -165,7 +165,7 @@ the second community detection algorithem will be: fastgreedy.community
 gc1 <- fastgreedy.community(g)
 gc1
 ```
-![Image](/image/155.png)
+![Image](images/155.png)
 
 we can notice that there are *6 groups* and the *modularity is ~0.59.*
 to be more precise about the modularity:
@@ -179,7 +179,7 @@ let's detect the memberships:
 memb1 <- membership(gc1)
 memb1
 ```
-![Image](/image/168.png)
+![Image](images/168.png)
 
 
 set the nodes in color and print:
@@ -188,7 +188,7 @@ set the nodes in color and print:
 plot(g, vertex.size=5, vertex.label=NA,
      vertex.color=memb1, asp=FALSE)
 ```
-![Image](/image/176.png)
+![Image](images/176.png)
 
 as we can see there are *6 different colors , each color for one membership group.*
 
@@ -238,7 +238,7 @@ let's take a look at the results structure:
 ```{r}
 str(tweets)
 ```
-![Image](/image/222.png)
+![Image](images/222.png)
 
 we can notice about the attributes of each tweet, we will focus on tow attributes: 1)isRetweet, which describes if this is retweet tweet or not. (A Retweet is a re-posting of a Tweet.)
 2)screenName, which describe the user who retweet the post. 
@@ -259,7 +259,7 @@ print the text head:
 ```{r}
 head(new.tweets$text)
 ```
-![Image](/image/243.png)
+![Image](images/243.png)
 
 we can notice that all the retweet messages are starting with "RT @" and after this prefix the name of the user that this retweet was taken from him, we will save these names in a new variable, named "takenFrom".
 ```{r}
@@ -271,7 +271,7 @@ next step we will create new data frame with only the relevant variables:
 writer.publisher.df <- as.data.frame(cbind(takenFrom = new.tweets1$takenFrom, screenName = new.tweets1$screenName))
 head(writer.publisher.df)
 ```
-![Image](/image/254.png)
+![Image](images/254.png)
 
 now we will add one more variable, called weigh,  that will sum up the number of times a user retweet a tweet of a particular user
 ```{r}
@@ -279,7 +279,7 @@ writer.publisher.df <- count(writer.publisher.df, takenFrom, screenName)
 colnames(writer.publisher.df)[3] <- "weight"
 head(writer.publisher.df)
 ```
-![Image](/image/261.png)
+![Image](images/261.png)
 
 
 ## b,c
@@ -290,7 +290,7 @@ sa_graph <- graph_from_data_frame(writer.publisher.df, directed=T)
 glay = layout.fruchterman.reingold(sa_graph) 
 plot(sa_graph, layout=glay)
 ```
-![Image](/image/271.png)
+![Image](images/271.png)
 
 this graph is hard to understand, let's make it more clear.
 
@@ -305,7 +305,7 @@ sa_graph.mod <- sa_graph
 V(sa_graph.mod)$size <- degree(sa_graph.mod) * 0.4
 plot(sa_graph.mod, layout=layout.fruchterman.reingold(sa_graph),edge.width=E(sa_graph.mod)$weight*0.3, edge.arrow.size=0.3,vertex.label=NA) 
 ```
-![Image](/image/285.png)
+![Image](images/285.png)
 
 
 we can see that this network is devided to number of connected components.  
@@ -317,7 +317,7 @@ we can find this user by:
 ```{r}
 which.max(degree(sa_graph.mod))
 ```
-![Image](/image/325.png)
+![Image](images/325.png)
 
 that means that sport's tweets are very popular among other users and many of them retweet this user tweets.
 more than that, we can see that there are some users that retweets tweets from more than one user, and for some of them there are other users that retweets from them.
@@ -355,7 +355,7 @@ so.. now we have to find the most betweenes actor, we studied to find betweens o
 ```{r}
 which.max(betweenness(as.undirected(sad[[index]])))
 ```
-![Image](/image/325.png)
+![Image](images/325.png)
 
 (betweeness rank of:115.3667)
 
@@ -369,7 +369,7 @@ next.. we have to check for Closeness.
 ```{r}
 which.max(closeness(as.undirected(sad[[index]])))
 ```
-![Image](/image/325.png)
+![Image](images/325.png)
 
 as we can see sport has also the highest closeness. with rank of:
 ```{r}
@@ -382,7 +382,7 @@ last.. we have to check for	Eigenvector:
 sadv <- eigen_centrality(sad[[index]])$vector
 which.max(sadv)
 ```
-![Image](/image/325.png)
+![Image](images/325.png)
 
 as we can see sport has also the highest Eigenvector. with rank of:
 ```{r}
@@ -399,7 +399,7 @@ the first one will be: Girvan-Newman (in order to get modularity, we have to con
 gc <-  edge.betweenness.community(as.undirected(sa_graph.mod))
 gc
 ```
-![Image](/image/betweenesCommunityGcOutput.png)
+![Image](images/betweenesCommunityGcOutput.png)
 we can notice that the *number of the groups is 29.*
 the *modularity value is 0.61*
 
@@ -420,7 +420,7 @@ the second community detection algorithem will be: fastgreedy.community
 gc1 <- fastgreedy.community(as.undirected(sa_graph.mod))
 gc1
 ```
-![Image](/image/fastGreedyGc1Output.png)
+![Image](images/fastGreedyGc1Output.png)
 
 we can notice that there are *29 groups* and the *modularity is ~0.61.*
 
@@ -436,7 +436,7 @@ set the nodes in color and print:
 plot(sa_graph.mod, vertex.size=5, vertex.label=NA,
      vertex.color=memb1)
 ```
-![Image](/image/fastGreedyGraph.png)
+![Image](images/fastGreedyGraph.png)
 
 
 
