@@ -514,12 +514,13 @@ plot(sa_graph.mod, vertex.size=5, vertex.label=NA,
 **Conclude Question 2:**
 
 a) we collected tweets that include "BFC" string by using twitter api.   
-b) we created a directed graph that each vertics is user a tweet was taken from or user who retweet (publish tweet of another   user). and a arch is between them. (publisher user -> retweet user)  
+b) we created a directed graph that each vertics is user a tweet was taken from or user who retweet (publish tweet of another        
+   user). and a arch is between them. (publisher user -> retweet user)  
 c) see above (graph)  
 d) for biggesrt component we found:  
-   i.	  Betweenness is sport with 2278.  
-   ii.	Closeness is sport  with 0.01470588 (~0.015).   
-   iii.	Eigenvector is sport with 1.  
+  i.	  Betweenness is sport with 2278.  
+  ii.	Closeness is sport  with 0.01470588 (~0.015).   
+  iii.	Eigenvector is sport with 1.  
   we used 2 different algorithems for communication detection: Girvan-Newman and      
   leading.eigenvector, both of them return the same results of 29 groups  
   and modularity of 0.61.  
