@@ -225,14 +225,14 @@ as we can see there are *6 different colors , each color for one membership grou
 
 **Conclude Question 1:**
 
-a) for biggesrt component in grey antomy we found:
-  i.	  Betweenness is Sloan with 115.3667.
-  ii.	  Closeness is Torres with 0.01754386. 
-  iii.	Eigenvector is Karev with 1.
-b) we used 2 different algorithems for communication detection:
-  1) Girvan-Newman with 7 groups and modularity value of 0.5774221 (~0.58)
-  2) fastgreedy with 6 groups and modularity value of 0.5947232 (~0.59)
-  and for both of them we plot a colored graph that each color identifies a group.
+a) for biggesrt component in grey antomy we found:  
+  i.	  Betweenness is Sloan with 115.3667.  
+  ii.	  Closeness is Torres with 0.01754386.   
+  iii.	Eigenvector is Karev with 1.  
+b) we used 2 different algorithems for communication detection:  
+  1) Girvan-Newman with 7 groups and modularity value of 0.5774221 (~0.58)  
+  2) fastgreedy with 6 groups and modularity value of 0.5947232 (~0.59)  
+  and for both of them we plot a colored graph that each color identifies a group.  
 
 
 # Question 2
@@ -513,14 +513,13 @@ plot(sa_graph.mod, vertex.size=5, vertex.label=NA,
 
 **Conclude Question 2:**
 
-a) we collected tweets that include "BFC" string by using twitter api. 
-b) we created a directed graph that each vertics is user a tweet was taken from or user who retweet (publish tweet of another user). and a arch is between them. 
-(publisher user -> retweet user)
-c) see above (graph)
-d) for biggesrt component we found:
-   i.	  Betweenness is sport with 2278.
-   ii.	Closeness is sport  with 0.01470588 (~0.015). 
-   iii.	Eigenvector is sport with 1.
-  we used 2 different algorithems for communication detection: Girvan-Newman and    
-  leading.eigenvector, both of them return the same results of 29 groups 
-  and modularity of 0.61.
+a) we collected tweets that include "BFC" string by using twitter api.   
+b) we created a directed graph that each vertics is user a tweet was taken from or user who retweet (publish tweet of another   user). and a arch is between them. (publisher user -> retweet user)  
+c) see above (graph)  
+d) for biggesrt component we found:  
+   i.	  Betweenness is sport with 2278.  
+   ii.	Closeness is sport  with 0.01470588 (~0.015).   
+   iii.	Eigenvector is sport with 1.  
+  we used 2 different algorithems for communication detection: Girvan-Newman and      
+  leading.eigenvector, both of them return the same results of 29 groups  
+  and modularity of 0.61.  
