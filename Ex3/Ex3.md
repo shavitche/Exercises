@@ -37,7 +37,7 @@ plot the network:
 g$layout <- layout.fruchterman.reingold(g)
 plot(g)
 ```
-![Image](Exercises\\Ex3\\images\\39.png)
+![Image](images/39.png)
 
 we can notice that there are 3 connected component.
 let's take only the biggest one.
