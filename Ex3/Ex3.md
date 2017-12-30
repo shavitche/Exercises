@@ -26,7 +26,7 @@ library("digest")
 library("rgl")
 ```
 
-Let’s load the graph:
+Letâ€™s load the graph:
 ```{r}
 ga.data <- read.csv('ga_edgelist.csv', header = T)
 g <- graph.data.frame(ga.data,directed = F)
@@ -37,7 +37,7 @@ plot the network:
 g$layout <- layout.fruchterman.reingold(g)
 plot(g)
 ```
-![Image](/image/39.png)
+![Image](Ex3/image/39.png)
 
 we can notice that there are 3 connected component.
 let's take only the biggest one.
