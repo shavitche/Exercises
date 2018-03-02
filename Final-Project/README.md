@@ -48,6 +48,19 @@ for optimizer we tried both rmprop and adam.
 * we decided how many and how long the data should be by the conclusions we reached at when we explore the data part 1.
 * we saved the generated data locally.
 
+***what could we do for better results?***
+
+* try to reduce more the vocabulary by remove all punctuation from the source text.
+* train the model on padded sentences rather than random sequences of characters, so it will be more precise.
+* increase the number of epochs.
+* try to Tune the batch size. (we tried with more than one)
+* add more memory units or more layers.
+
+
+in conclusion , we think that the results we received were surprising, although the texts are not entirely readable in most of them you can still see sequences of words completely logical, and in the other parts of the text, where the generated text was bot so good, you can still understand the general idea. We think that with more training time and by exploring more the affects of different values for each parameter, we could achieved even better results.
+in long texts we saw that this architecture doesnt work well, and the texts were almost not readable, but even there we can see that the structure of word and sentences are logical.
+In addition, it is important to note that before we chose to use the above architecture, we debated to use word distribution. After investigation, we realized that the models that are divided into words are generally less precise. In addition, the number of words in e-mail messages is small in our case.
+
 [part 3](https://github.com/shavitche/Exercises/blob/master/Final-Project/Part3.ipynb)
 
 
@@ -65,4 +78,12 @@ for optimizer we tried both rmprop and adam.
 the confusion matrix:
 
 ![alt text](./image/cm.jpg)
+
+
+we can notice that asaf lea and illona have only TP values, it means it is 100% accurate as we saw by the score value above.
+itai has 6 TP and 3 messages classified to other types, we can see that is was classified to 3 different types, so maybe some of his messgaes were very general. ont the other hand we can notie that dvir has 7 TP and 2 messages that are not, classified to the same type (asaf) , so maybe he wrote a bit similar to him in these messages , or about topics that asaf wrote on this own messages.
+
+in conclusion we can notice that we handle better with senders who wrote short messages, this may be because many factors mainly because some of the senders have similar topics, they are on the same age and same culture so they wrote very similar, and other factors like that we had limited time to train the architecture (part 3 we wrote what we could do to make its better), maybe to change architecture that will work better for the "problematic" types. and other reasons we have to investigate more deeply.
+
+in general the results are very good, and we are very satisfied from them. :)
 
