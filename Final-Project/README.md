@@ -64,5 +64,5 @@ for optimizer we tried both rmprop and adam.
 
 the confusion matrix:
 
-![alt text](./image/)
+![alt text](./image/cm.jpg)
 
