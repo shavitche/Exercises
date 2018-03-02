@@ -10,7 +10,7 @@ In this report we link to these parts and we will explain in detail what is happ
 * we clean signs the were not relevant for our goal, by using re library (such as links to emoji)
 * we explore the data: number of messages/words/characters for each type and plit graphs that show these details more clearly.
 
-[part1](./Part1.ipynb)
+[part1](https://github.com/shavitche/Exercises/blob/master/Final-Project/part1.ipynb)
 
 ### PART 2 - Build a text data classifier
 
@@ -27,7 +27,7 @@ In this report we link to these parts and we will explain in detail what is happ
 
 (models we tried: LogisticRegressionClassifier, GuassianNB, LinearSVC, Random forst, VotingClassifier)
 
-[a link](Part2.ipynb)
+[part 2](https://github.com/shavitche/Exercises/blob/master/Final-Project/part2.ipynb)
 
 ### PART 3 - DEEP NETWORK & TEXT GENERATION
 
@@ -48,7 +48,7 @@ for optimizer we tried both rmprop and adam.
 * we decided how many and how long the data should be by the conclusions we reached at when we explore the data part 1.
 * we saved the generated data locally.
 
-[a link](Part3.ipynb)
+[part 3](https://github.com/shavitche/Exercises/blob/master/Final-Project/part3.ipynb)
 
 
 ### PART 4 - Classification of generated text
@@ -60,7 +60,7 @@ for optimizer we tried both rmprop and adam.
 * we found that this is happend because these messages were significantly longer than others, so they were more prone to mistakes.
 * we printed confusion_matrix that summarize the results.
 
-[a link](Part4.ipynb)
+[part 4](https://github.com/shavitche/Exercises/blob/master/Final-Project/part4.ipynb)
 
 the confusion matrix:
 
