@@ -27,7 +27,7 @@ In this report we link to these parts and we will explain in detail what is happ
 
 (models we tried: LogisticRegressionClassifier, GuassianNB, LinearSVC, Random forst, VotingClassifier)
 
-[part 2](https://github.com/shavitche/Exercises/blob/master/Final-Project/part2.ipynb)
+[part 2](https://github.com/shavitche/Exercises/blob/master/Final-Project/Part2.ipynb)
 
 ### PART 3 - DEEP NETWORK & TEXT GENERATION
 
@@ -48,7 +48,7 @@ for optimizer we tried both rmprop and adam.
 * we decided how many and how long the data should be by the conclusions we reached at when we explore the data part 1.
 * we saved the generated data locally.
 
-[part 3](https://github.com/shavitche/Exercises/blob/master/Final-Project/part3.ipynb)
+[part 3](https://github.com/shavitche/Exercises/blob/master/Final-Project/Part3.ipynb)
 
 
 ### PART 4 - Classification of generated text
@@ -60,7 +60,7 @@ for optimizer we tried both rmprop and adam.
 * we found that this is happend because these messages were significantly longer than others, so they were more prone to mistakes.
 * we printed confusion_matrix that summarize the results.
 
-[part 4](https://github.com/shavitche/Exercises/blob/master/Final-Project/part4.ipynb)
+[part 4](https://github.com/shavitche/Exercises/blob/master/Final-Project/Part4.ipynb)
 
 the confusion matrix:
 
