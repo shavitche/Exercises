@@ -10,7 +10,7 @@ In this report we link to these parts and we will explain in detail what is happ
 * we clean signs the were not relevant for our goal, by using re library (such as links to emoji)
 * we explore the data: number of messages/words/characters for each type and plit graphs that show these details more clearly.
 
-[part1](https://github.com/shavitche/Exercises/blob/master/Final-Project/part1.ipynb)
+[part1](https://github.com/shavitche/Exercises/blob/master/Final-Project/Part1.ipynb)
 
 ### PART 2 - Build a text data classifier
 
